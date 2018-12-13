@@ -7,7 +7,6 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <cstdlib>
-
 /*******************************************************************************
 	Globals
 *******************************************************************************/
@@ -56,6 +55,7 @@ int App::run(int argc, char **argv)
 	addr.sin_port = htons(gConfig->serverPort);
 	//set TCP options
 	portno = gConfig->serverPort;
+	LOG("Port Number is : %d\n",portno);
 	int one = 1;
 	setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
 	setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(one));
@@ -253,7 +253,6 @@ bool App::tick()
 		stats_begin();
 	}
 
-    LOG("mModules size %d\n",(int)mModules.size());
    // printf("mModules size %d\n",mModules.size());
 	//Go through each module and process the frame
 	for(int i=0;i<(int)mModules.size();i++) {
@@ -265,7 +264,8 @@ bool App::tick()
 			LOG("Failed to process frame (in %d), bailing out\n", i);
 			return false;
 		}
-		
+	 //   LOG("mModules size %d\n",(int)mModules.size());
+
 		//TODO: handle bytes and such
 		thisFrame = m->resultAsList();
 		
@@ -273,8 +273,7 @@ bool App::tick()
 			LOG("!thisFrame\n");
 			return false;
 		}
-	}
-	
+	}	
     
 	//return appropriate frames
 	for(int n=0;n<(int)thisFrame->size();n++){

@@ -2,6 +2,33 @@
 	ClusterGL - config.cpp
 *******************************************************************************/
 #include "main.h"
+using namespace std;
+
+string ipfunction()
+{
+   string line, ipaddress;
+   ifstream IPFile;
+   int offset;
+   char* search0 ="inet";
+   system("ifconfig > ip.txt");
+   IPFile.open("ip.txt");
+   if(IPFile.is_open())
+   {
+     while(!IPFile.eof())
+     {
+       getline(IPFile, line);
+       if((offset = line.find(search0))!=string::npos)
+       {
+         int position = line.find(" netmask");
+         ipaddress = line.substr(offset+5, position-offset-6);
+         cout<<ipaddress<<","<<endl;
+         IPFile.close();
+       }
+     }
+	 cout<<ipaddress<<","<<endl;
+   }
+   return ipaddress;
+}
 
 Config::Config(string filename, string id){
 
@@ -124,9 +151,13 @@ Config::Config(string filename, string id){
 			LOG("Unknown viewmode '%s' - using default viewmode 'viewport'\n", 
 				 viewModeString.c_str());
 			viewMode = VIEWMODE_VIEWPORT;
-		}	
-	
-		serverPort = port;
+		}
+		string ss(addr);
+	//	LOG("ip address %s\n",ipfunction());	
+	    if(ss==ipfunction())
+		{
+		  serverPort = port;
+		}
 	}
 	
 	if(!found_section && id != "capture"){

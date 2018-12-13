@@ -597,7 +597,7 @@ extern "C" Display *XOpenDisplay(const char *display_name){
 extern "C" void glXSwapBuffers(Display *  dpy,  GLXDrawable  drawable){
     
 	static int count=0;
-    LOG("glXSwapBuffers, %d,%d\n",bIsIntercept,count++);
+  //  LOG("glXSwapBuffers, %d,%d\n",bIsIntercept,count++);
 	if (_glXSwapBuffers == NULL) {
 		_glXSwapBuffers = (void (*)(Display *, GLXDrawable)) dlsym(RTLD_NEXT, "glXSwapBuffers");
 	}
@@ -759,7 +759,7 @@ extern "C" void glColor3dv(const GLdouble * v){
 
 //13
 extern "C" void glColor3f(GLfloat red, GLfloat green, GLfloat blue){
-	LOG("glColor3f\n");
+	//LOG("glColor3f\n");
 	pushOp(13);
 	pushParam(red);
 	pushParam(green);

@@ -691,8 +691,8 @@ handle_event(Display *dpy, Window win, XEvent *event)
 static void
 event_loop(Display *dpy, Window win)
 {
-   while (1) {
-      int op;
+   //while (1) {
+     int op;
       while (!animate || XPending(dpy) > 0) {
          XEvent event;
          XNextEvent(dpy, &event);
@@ -704,7 +704,7 @@ event_loop(Display *dpy, Window win)
       }
 
       draw_frame(dpy, win);
-   }
+   //}
 }
 
 
@@ -798,10 +798,10 @@ main(int argc, char *argv[])
     */
    reshape(winWidth, winHeight);
 
-   event_loop(dpy, win);
-   //draw_gears();  
-   //glXSwapBuffers(dpy, win);
-   //getchar();
+  // event_loop(dpy, win);
+   draw_gears();  
+   glXSwapBuffers(dpy, win);
+   getchar();
 
    glDeleteLists(gear1, 1);
    glDeleteLists(gear2, 1);

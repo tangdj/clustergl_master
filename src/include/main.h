@@ -21,6 +21,10 @@
 #include "module.h"
 #include "mongoose.h"
 #include <pthread.h>
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <fstream>
 
 
 /*******************************************************************************

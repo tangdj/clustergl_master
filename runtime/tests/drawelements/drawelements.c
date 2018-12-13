@@ -564,7 +564,9 @@ int main( int argc, char **argv )
 			{
 			case SDL_QUIT:
 			   
-			    done = TRUE;
+			    //done = TRUE;
+                            SDL_Quit();
+                            getchar(); 
 			    break;
 			default:
 			    break;
@@ -576,7 +578,6 @@ int main( int argc, char **argv )
 		drawGLScene( );
 	}
    
-    //getchar(); 
     /* clean ourselves up and exit */
     Quit( 0 );
     /* Should never get here */

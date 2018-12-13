@@ -3,6 +3,7 @@
 ********************************************************/
 
 #include "main.h"
+#include <SDL/SDL.h>
 
 const int recieveBufferSize = 268435456;
 //const int recieveBufferSize = sizeof(Instruction) * MAX_INSTRUCTIONS;
@@ -115,36 +116,19 @@ bool NetSrvModule::process(vector<Instruction *> *list)
 	uint32_t num = 0;
 	
 	iInstructionCount = 0;
-	LOG("NetSrvModule process\n");
 
 	int len = internalRead((byte *)&num, sizeof(uint32_t));
+	
 	if(len != sizeof(uint32_t) ) {
 		LOG("Read error\n");
 		return false;
 	}
-	LOG("Instruction number %d\n",num);
-	
-	
 
+	
+    LOG("instruction length %d\n",num);
 	for(uint32_t x=0;x<num;x++) {
 		Instruction *i = &mInstructions[iInstructionCount++];
-		
-		//first the length byte
-		/*
-		byte l;
-		int r = internalRead((byte *)&l, 1);
-		if(r != 1){
-			LOG("Read error 1 (%d)\n", r);
-			return false;
-		}
 
-		r = internalRead((byte *)i, l);
-		if(r != l) {
-			LOG("Read error 2 (%d, %d)\n", r, l);
-			return false;
-		}
-		*/
-		
 		int l = sizeof(Instruction);
 		int r = internalRead((byte *)i, l);
 		if(r != l) {
@@ -152,7 +136,7 @@ bool NetSrvModule::process(vector<Instruction *> *list)
 			return false;
 		}
 		
-		//LOG_INSTRUCTION(i);	
+		LOG_INSTRUCTION(i);	
 
 		//Now see if we're expecting any buffers
 		for(int n=0;n<3;n++) {
@@ -181,6 +165,7 @@ bool NetSrvModule::process(vector<Instruction *> *list)
 	if(totalRead == 0){
 		//Other side has hung up
 		LOG("Connection dropped\n");
+		SDL_Quit();
 		return false;
 	}
 	
